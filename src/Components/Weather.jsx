@@ -1,5 +1,6 @@
 import React,{ useRef,useState} from 'react'
 import axios from 'axios'
+import '../App.css'
 import WeatherCard from './WeatherCard';
 
 export const Weather = () => {
@@ -10,15 +11,22 @@ const getCityName = async (event) => {
 event.preventDefault();
 
 let cityName = userCityRef.current.value;
+
+if (!cityName.trim()) {
+    alert("Please enter a city name");
+    return; 
+  }
+
 let APIkey = "1b789cf85df8b83800c62a76a1411983";
 try{
 let response = await axios.get(
-  `https://api.openweathermap.org/data/2.5/weather?q${cityName}&appid=${APIkey}&units=metric`
+  `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIkey}&units=metric`
   );
 setWeather([response.data, ...weather]);
 }
 catch(e){
-  console.log(e);
+  console.error("Error fetching weather data:", e);
+  alert("City not found. Please check the city name.");
 }
 };
 
@@ -46,9 +54,10 @@ catch(e){
 				</button>
         </div>
         {console.log(weather)}
-{weather.length ? <WeatherCard weather={weather}/> : "Data Not Found"}
+{weather.length ? <WeatherCard weather={weather} /> : "Data Not Found"}
 </div>
 
    </>
   )
 }
+export default Weather
