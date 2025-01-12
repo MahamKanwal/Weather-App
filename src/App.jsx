@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {Weather} from "./Components/Weather"
+import Weather from "./Components/Weather"
 
 function App() {
  
